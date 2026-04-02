@@ -1,12 +1,14 @@
+# Import Libraries
 import os 
 from dotenv import load_dotenv
 from google.adk.agents import LlmAgent
 from .tools import get_product_info, compare_products 
 
-    
+# Load Environment variables from .env file
 load_dotenv()
 model_name = os.getenv("MODEL")
 
+# Create root_agent
 root_agent = LlmAgent(
     name="product_assistant_logic", 
     model=model_name,  
@@ -53,7 +55,7 @@ root_agent = LlmAgent(
 
 )  
 
-
+# Define async function to run terminal test
 async def run_terminal_test():
     import asyncio
     from google.adk.runners import Runner
@@ -63,16 +65,18 @@ async def run_terminal_test():
     # 1. Initialize the Memory Service 
     session_service = InMemorySessionService()
     
-    # 2. Initialize the Runner
+    # 2. Initialize the Runner with agent and session
     runner = Runner(
         agent=root_agent, 
         session_service=session_service,
         app_name="product_test_app" 
     )
-
+    
+    # Define test query 
     test_query = "Compare iphone 17 and samsung galaxy s26?"
     print(f"📝 Query: {test_query}\n")
-    
+
+    # Run agent in debug mode
     try:
         await runner.run_debug(
             test_query,
@@ -82,6 +86,7 @@ async def run_terminal_test():
     except Exception as e:
         print(f"\n❌ Execution Error: {e}")
 
+ # Entry point for script execution
 if __name__ == "__main__":
     asyncio.run(run_terminal_test())
 
