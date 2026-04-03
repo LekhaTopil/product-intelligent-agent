@@ -20,7 +20,7 @@ def get_product_info(product_name: str) -> list:
     """
 
     # SQL query to fetch product details by product name
-    query = """
+    query = f"""
     SELECT *
     FROM
         `{TABLE_PATH}`
@@ -64,7 +64,7 @@ def compare_products(product_1: str, product_2: str) -> dict:
     """
 
     # SQL query to fetch details for both products 
-    query = """
+    query = f"""
     SELECT *
     FROM
         `{TABLE_PATH}`
@@ -107,6 +107,3 @@ def compare_products(product_1: str, product_2: str) -> dict:
             comparison[product_2].append(row_dict)
 
     return comparison
-
-
-      
